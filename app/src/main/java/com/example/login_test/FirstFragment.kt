@@ -32,8 +32,11 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        binding.loginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_LoginFragment)
+        }
+        binding.registerButton.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_RegisterFragment)
         }
     }
 
