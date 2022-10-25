@@ -67,7 +67,7 @@ class RegisterFragment : Fragment() {
 
             val jsonArr = JSONArray(json)
 
-            for(i in 0..jsonArr.length()-1){
+            for(i in 0 until jsonArr.length()){
                 val jsonObj = jsonArr.getJSONObject(i)
                 if(jsonObj.get("username") == username){
                     alreadyExists = true

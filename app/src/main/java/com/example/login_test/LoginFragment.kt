@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.text.set
 import androidx.navigation.fragment.findNavController
 import com.example.login_test.databinding.FragmentLoginBinding
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 import java.io.InputStream
 
 /**
@@ -34,7 +40,22 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_LoginFragment_to_FirstFragment)
+            val username = view.findViewById<EditText>(R.id.editTextUserName).text.toString()
+            val password = view.findViewById<EditText>(R.id.editTextPassword).text.toString()
+            if(checkPassword(username, password)) {
+                val myToast = Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT)
+
+                myToast.show()
+            }
+            else{
+                val myToast = Toast.makeText(context, "Incorrect user or password", Toast.LENGTH_SHORT)
+
+                myToast.show()
+
+                view.findViewById<EditText>(R.id.editTextUserName).text.clear()
+                view.findViewById<EditText>(R.id.editTextPassword).text.clear()
+            }
+                //findNavController().navigate(R.id.action_LoginFragment_to_FirstFragment)
         }
     }
 
@@ -43,7 +64,28 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    fun readJSON(){
+    private fun  checkPassword(username: String, password: String): Boolean {
+        var json : String? = null
+        var correctUser : Boolean = false
+        try{
 
+            val inputStream: InputStream? = context?.assets?.open("accounts.json")
+            json = inputStream?.bufferedReader().use{it?.readText()}
+
+
+            val jsonArr = JSONArray(json)
+
+            for(i in 0 until jsonArr.length()){
+                val jsonObj = jsonArr.getJSONObject(i)
+                if(jsonObj.get("username") == username && jsonObj.get("password") == password){
+                    correctUser = true
+                }
+            }
+
+            inputStream?.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return correctUser
     }
 }
