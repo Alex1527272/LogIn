@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.login_test.databinding.FragmentLoginBinding
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 
@@ -68,10 +70,11 @@ class LoginFragment : Fragment() {
         var json : String? = null
         var correctUser : Boolean = false
         try{
+            val path = context?.filesDir
+            val fileDirectory = File(path, "ACCOUNTS")
+            val file = File(fileDirectory, "accountFiles.txt")
 
-            val inputStream: InputStream? = context?.assets?.open("accounts.json")
-            json = inputStream?.bufferedReader().use{it?.readText()}
-
+            json = FileInputStream(file).bufferedReader().use{it.readText()}
 
             val jsonArr = JSONArray(json)
 
@@ -82,7 +85,6 @@ class LoginFragment : Fragment() {
                 }
             }
 
-            inputStream?.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }

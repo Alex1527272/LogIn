@@ -10,7 +10,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.example.login_test.databinding.ActivityMainBinding
-
+import java.io.InputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,11 +32,17 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
         /*binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
         */
+
+    }
+
+    private fun createAccounts(){
+
 
     }
 

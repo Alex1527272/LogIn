@@ -11,10 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.login_test.databinding.FragmentRegisterBinding
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.nio.file.Paths
 
 
@@ -61,9 +58,11 @@ class RegisterFragment : Fragment() {
         var alreadyExists : Boolean = false
         try{
 
-            val inputStream: InputStream? = context?.assets?.open("accounts.json")
-            json = inputStream?.bufferedReader().use{it?.readText()}
+            val path = context?.filesDir
+            val fileDirectory = File(path, "ACCOUNTS")
+            val file = File(fileDirectory, "accountFiles.txt")
 
+            json = FileInputStream(file).bufferedReader().use{it.readText()}
 
             val jsonArr = JSONArray(json)
 
@@ -77,10 +76,13 @@ class RegisterFragment : Fragment() {
             if(!alreadyExists) {
                 val newUser = JSONObject().put("username", username).put("password", password)
                 jsonArr.put(newUser)
-                val path = context?.filesDir
-                val aux = 0
+                var newText = jsonArr.toString().toByteArray()
+
+                FileOutputStream(file).use{ it.write(newText)}
+
+                val test = FileInputStream(file).bufferedReader().use{it.readText()}
             }
-            inputStream?.close()
+
         } catch (e: IOException) {
             e.printStackTrace()
         }
