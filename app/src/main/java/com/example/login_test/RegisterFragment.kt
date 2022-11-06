@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.login_test.databinding.FragmentRegisterBinding
 import org.json.JSONArray
@@ -42,9 +43,36 @@ class RegisterFragment : Fragment() {
         binding.buttonSecond.setOnClickListener {
             val username = view.findViewById<EditText>(R.id.editTextUserName).text.toString()
             val password = view.findViewById<EditText>(R.id.editTextPassword).text.toString()
-            writeJSONFile(username, password)
+            val confirmPassword = view.findViewById<EditText>(R.id.editTextConfirmPassword).text.toString()
+            if(password!=confirmPassword){
+                val myToast = Toast.makeText(context, "Different passwords introduced", Toast.LENGTH_SHORT)
 
-            findNavController().navigate(R.id.action_RegisterFragment_to_FirstFragment)
+                myToast.show()
+
+                view.findViewById<EditText>(R.id.editTextPassword).text.clear()
+                view.findViewById<EditText>(R.id.editTextConfirmPassword).text.clear()
+            }else {
+                val alreadyExists = writeJSONFile(username, password)
+
+                if(alreadyExists){
+                    val myToast = Toast.makeText(context, "Username already exists", Toast.LENGTH_SHORT)
+
+                    myToast.show()
+
+                    view.findViewById<EditText>(R.id.editTextUserName).text.clear()
+                    view.findViewById<EditText>(R.id.editTextPassword).text.clear()
+                    view.findViewById<EditText>(R.id.editTextConfirmPassword).text.clear()
+                }
+                else{
+                    val myToast = Toast.makeText(context, "Register successful", Toast.LENGTH_SHORT)
+
+                    myToast.show()
+
+                    findNavController().navigate(R.id.action_RegisterFragment_to_FirstFragment)
+                }
+
+            }
+
         }
     }
 
@@ -53,7 +81,7 @@ class RegisterFragment : Fragment() {
         _binding = null
     }
 
-    fun  writeJSONFile(username: String, password: String){
+    private fun  writeJSONFile(username: String, password: String): Boolean{
         var json : String? = null
         var alreadyExists : Boolean = false
         try{
@@ -72,20 +100,19 @@ class RegisterFragment : Fragment() {
                     alreadyExists = true
                 }
             }
-
             if(!alreadyExists) {
                 val newUser = JSONObject().put("username", username).put("password", password)
                 jsonArr.put(newUser)
                 var newText = jsonArr.toString().toByteArray()
 
-                FileOutputStream(file).use{ it.write(newText)}
+                FileOutputStream(file).use { it.write(newText) }
 
-                val test = FileInputStream(file).bufferedReader().use{it.readText()}
             }
-
+            println(FileInputStream(file).bufferedReader().use{it.readText()}.toString())
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        return alreadyExists
     }
 
 }
