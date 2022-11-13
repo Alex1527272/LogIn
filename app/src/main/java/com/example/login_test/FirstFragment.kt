@@ -22,6 +22,10 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val temp : JSONControllerJava = JSONControllerJava()
+
+    private val initFiles : JSONController = JSONController()
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -29,28 +33,9 @@ class FirstFragment : Fragment() {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        try {
-            val inputStream: InputStream? = context?.assets?.open("accounts.json")
-            var accounts = inputStream?.bufferedReader().use{it?.readText()}
+        initFiles.initFiles(context!!)
 
-            val path = context?.filesDir
-            val fileDirectory = File(path, "ACCOUNTS")
-            fileDirectory.mkdirs()
-
-            val file = File(fileDirectory, "accountFiles.txt")
-
-            if(FileInputStream(file).bufferedReader().use{it.readText()} == "") {
-                FileOutputStream(file).use {
-                    it.write(accounts?.toByteArray())
-                }
-                println("CREAT")
-            }
-            val test = FileInputStream(file).bufferedReader().use{it.readText()}
-            println(test)
-            println("______________________________________________________")
-        }catch(e: Exception){
-            e.printStackTrace()
-        }
+        temp.test()
 
         return binding.root
 
