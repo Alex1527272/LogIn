@@ -22,8 +22,6 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val temp : JSONControllerJava = JSONControllerJava()
-
     private val initFiles : JSONController = JSONController()
 
     override fun onCreateView(
@@ -34,8 +32,6 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         initFiles.initFiles(context!!)
-
-        temp.test()
 
         return binding.root
 
