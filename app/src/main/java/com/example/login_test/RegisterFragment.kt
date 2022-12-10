@@ -24,7 +24,6 @@ class RegisterFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val register : JSONController = JSONController()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +50,7 @@ class RegisterFragment : Fragment() {
                 view.findViewById<EditText>(R.id.editTextPassword).text.clear()
                 view.findViewById<EditText>(R.id.editTextConfirmPassword).text.clear()
             }else {
+                val register = JSONController()
                 val alreadyExists = register.writeJSONFile(context!!, username, password)
 
                 if(alreadyExists){

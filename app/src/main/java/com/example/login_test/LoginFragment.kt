@@ -23,8 +23,6 @@ class LoginFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val login : JSONController = JSONController()
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -43,6 +41,7 @@ class LoginFragment : Fragment() {
             val username = view.findViewById<EditText>(R.id.editTextUserName).text.toString()
             val password = view.findViewById<EditText>(R.id.editTextPassword).text.toString()
             val context = context
+            val login = JSONController()
             if(login.checkPassword(context!!, username, password)) {
                 val myToast = Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT)
 

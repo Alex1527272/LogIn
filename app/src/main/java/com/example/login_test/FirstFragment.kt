@@ -14,6 +14,7 @@ import java.io.*
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
@@ -22,7 +23,7 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val initFiles : JSONController = JSONController()
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +31,7 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-
+        val initFiles = JSONController()
         initFiles.initFiles(context!!)
 
         return binding.root
