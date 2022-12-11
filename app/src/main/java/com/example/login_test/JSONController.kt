@@ -1,21 +1,21 @@
 package com.example.login_test
 
 import android.content.Context
+import io.michaelrocks.paranoid.Obfuscate
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
 
-
+@Obfuscate
 class JSONController {
     public fun  checkPassword(context: Context, username: String, password: String): Boolean {
-        var json : String? = null
         var correctUser : Boolean = false
         try{
             val path = context.filesDir
             val fileDirectory = File(path, "ACCOUNTS")
             val file = File(fileDirectory, "accountFiles.txt")
 
-            json = FileInputStream(file).bufferedReader().use{it.readText()}
+            val json = FileInputStream(file).bufferedReader().use{it.readText()}
 
             val jsonArr = JSONArray(json)
 
@@ -33,7 +33,6 @@ class JSONController {
     }
 
     public fun  writeJSONFile(context: Context, username: String, password: String): Boolean{
-        var json : String? = null
         var alreadyExists : Boolean = false
         try{
 
@@ -41,7 +40,7 @@ class JSONController {
             val fileDirectory = File(path, "ACCOUNTS")
             val file = File(fileDirectory, "accountFiles.txt")
 
-            json = FileInputStream(file).bufferedReader().use{it.readText()}
+            val json = FileInputStream(file).bufferedReader().use{it.readText()}
 
             val jsonArr = JSONArray(json)
 
