@@ -77,7 +77,7 @@ class JSONController {
 
             val file = File(fileDirectory, "accountFiles.txt")
 
-            if(FileInputStream(file).bufferedReader().use{it.readText()} == "") {
+            if(!file.exists()) {
                 FileOutputStream(file).use {
                     it.write(accounts?.toByteArray())
                 }
